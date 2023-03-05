@@ -1,8 +1,8 @@
 const moment = require('moment')
 const today_data = moment().format('YYYY-MM-DD')
-const hour = 3
-// const hour = moment().format('HH')
-const how_many_times_a_day = 8
+// const hour = 3
+const hour = moment().format('HH')
+const how_many_times_a_day = 24
 const hours_per_day = 24
 const breaks = hours_per_day / how_many_times_a_day
 let scheduler_hrs = []
@@ -16,16 +16,14 @@ query_hrs.pop()
 query_hrs = [...query_hrs.map(x => { return x }), `23:59`]
 
 exports.checkSchedulerEngine = () => {
-
-    if (scheduler_hrs.includes(hour)) {
+    console.log("in schedule engine");
+    if (scheduler_hrs.includes(Number(hour))) {
         const index_hr = scheduler_hrs.indexOf(Number(hour))
-
         start_time = query_hrs[index_hr]
         end_time = query_hrs[index_hr + 1]
-
         return [start_time, end_time, today_data]
     }
     else {
-        console.log('not yet');
+        return [];
     }
 }
