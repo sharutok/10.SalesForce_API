@@ -66,7 +66,7 @@ exports.OrderSales = async (req, res) => {
                     AMOUNT: x["TOTAL_VALUE__C"] || null,
                     PLANT_ID: x["WAREHOUSE_SK__C"] || null,
                     FOB_POINT_CODE: x["DELIVERY_TERMS__C"] || null,
-                    ORDER_COMMENTS: (x["REMARKS__C"]).substring(0, 10) || null,
+                    ORDER_COMMENTS: (x["REMARKS__C"]) || null,
                     SHIPPING_AND_HANDLING: x["SHIPPING_AND_HANDLING__C"] || null,
                     FOB_POINT_CODE: x["DELIVERY_TERMS__C"] || null,
                     AMOUNT: x['GRAND_TOTAL__C'] || null,
@@ -89,7 +89,7 @@ exports.OrderSales = async (req, res) => {
                 line_object.push({
                     SALES_INDENT_ID: _SALES_INDENT_ID,
                     INDENT_LINE_ID: _INDENT_LINE_ID,
-                    INVENTORY_ITEM_ID: x[''],
+                    INVENTORY_ITEM_ID: x['ITEM_CODE__C'],
                     SHIP_TO_ORG_ID: x['SHIP_TO__C'],
                     INVOICE_TO_ORG_ID: x['BILL_TO__C'],
                     CUST_PO_NUMBER: x[''],
@@ -112,10 +112,9 @@ exports.OrderSales = async (req, res) => {
                         INDENT_LINE_ID: _indent_line_id_array[i],
                         ADJUSTMENT_ID: _uuidv4(),
                         DISCOUNT_TYPE: "PERCENTAGE",
-                        DISCOUNT: x['TD__C'],
+                        DISCOUNT: x['TD__C'] || x['TD_MASTER__C'],
                         SCHEME_NAME: "Trade discount",
-                        ATTRIBUTE1: x['TD_MASTER__C'],
-                        SEQUENCE: i + 1,
+                        SEQUENCE: 1,
                         ITEM_RATE: x['AMOUNT_1__C']
                     },
                     {
@@ -123,10 +122,9 @@ exports.OrderSales = async (req, res) => {
                         INDENT_LINE_ID: _indent_line_id_array[i],
                         ADJUSTMENT_ID: _uuidv4(),
                         DISCOUNT_TYPE: "PERCENTAGE",
-                        DISCOUNT: x['VD__C'],
+                        DISCOUNT: x['VD__C'] || x['VD_MASTER__C'],
                         SCHEME_NAME: "Value Discount",
-                        ATTRIBUTE1: x['VD_MASTER__C'],
-                        SEQUENCE: i + 1,
+                        SEQUENCE: 2,
                         ITEM_RATE: x['AMOUNT_2__C']
                     },
                     {
@@ -134,10 +132,9 @@ exports.OrderSales = async (req, res) => {
                         INDENT_LINE_ID: _indent_line_id_array[i],
                         ADJUSTMENT_ID: _uuidv4(),
                         DISCOUNT_TYPE: "PERCENTAGE",
-                        DISCOUNT: x['CD1__C'],
+                        DISCOUNT: x['CD1__C'] || x['CD_MASTER1__C'],
                         SCHEME_NAME: "Cash Discount",
-                        ATTRIBUTE1: x['CD_MASTER1__C'],
-                        SEQUENCE: i + 1,
+                        SEQUENCE: 3,
                         ITEM_RATE: x['AMOUNT_3__C']
                     },
                     {
@@ -145,10 +142,9 @@ exports.OrderSales = async (req, res) => {
                         INDENT_LINE_ID: _indent_line_id_array[i],
                         ADJUSTMENT_ID: _uuidv4(),
                         DISCOUNT_TYPE: "PERCENTAGE",
-                        DISCOUNT: x['AD1__C'],
+                        DISCOUNT: x['AD1__C'] || x['AD_MASTER__C'],
                         SCHEME_NAME: "Additional discount",
-                        ATTRIBUTE1: x['AD_MASTER__C'],
-                        SEQUENCE: i + 1,
+                        SEQUENCE: 4,
                         ITEM_RATE: x['AD_VALUE1__C']
                     },
                     {
@@ -156,10 +152,9 @@ exports.OrderSales = async (req, res) => {
                         INDENT_LINE_ID: _indent_line_id_array[i],
                         ADJUSTMENT_ID: _uuidv4(),
                         DISCOUNT_TYPE: "VALUE",
-                        DISCOUNT: x['AD_PER_VALUE__C'],
+                        DISCOUNT: x['AD_PER_VALUE__C'] || null,
                         SCHEME_NAME: "Additional discount",
-                        ATTRIBUTE1: null,
-                        SEQUENCE: i + 1,
+                        SEQUENCE: 5,
                         ITEM_RATE: null
                     })
             })
@@ -168,7 +163,7 @@ exports.OrderSales = async (req, res) => {
 
                 if (true) {
                     const responseHeader = await OrderHeader(header_object)
-                    console.log(responseHeader, "header");
+                    console.log(responseHeader, "Header");
                     const responseLine = await OrderLine(line_object)
                     console.log(responseLine, "Line");
                     const responseAdjustment = await OrderAdjustment(adjustment_object)

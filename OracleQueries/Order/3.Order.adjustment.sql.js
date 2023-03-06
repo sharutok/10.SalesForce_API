@@ -12,8 +12,8 @@ exports.OrderAdjustment = async (data) => {
         ADJUSTMENT_ID,
         DISCOUNT_TYPE,
         DISCOUNT,
+        SEQUENCE,
         SCHEME_NAME,
-        ATTRIBUTE1,
         ITEM_RATE
       } = x
 
@@ -24,8 +24,8 @@ exports.OrderAdjustment = async (data) => {
       DISCOUNT_TYPE,
       DISCOUNT,
       SCHEME_NAME,
-      ATTRIBUTE1,
       ITEM_RATE,
+      SEQUENCE,
       CREATED_AT
       )
         VALUES (
@@ -35,8 +35,8 @@ exports.OrderAdjustment = async (data) => {
         '${DISCOUNT_TYPE}',
         '${DISCOUNT}',
         '${SCHEME_NAME}',
-        '${ATTRIBUTE1}',
         '${ITEM_RATE}',
+        '${SEQUENCE}',
         TO_DATE('${CREATED_AT}', 'yyyy/mm/dd HH24:MI:ss')
         )`
 

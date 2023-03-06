@@ -158,7 +158,6 @@ SELECT
     END_DATE_ACTIVE from AWL_COPS.COPS_PRICE_LIST_DETAILS where CURRENCY_CODE='USD' and rownum<=1
 `
 
-
 /*
 exports.Customer_Master_Query = `
 SELECT ACCOUNT_NUMBER,
